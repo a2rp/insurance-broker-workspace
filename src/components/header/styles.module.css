@@ -1,3 +1,295 @@
-﻿.header{position:fixed;inset:0 0 auto 0;height:76px;background:#fff;border-bottom:1px solid #e4e9e7;display:flex;align-items:center;padding:0 30px;gap:34px;z-index:20}.brand{display:flex;align-items:center;gap:10px;width:207px;flex:none;color:#15343b;font-size:22px;font-weight:800;letter-spacing:-.7px;text-decoration:none}.brand>span:last-child{line-height:1}.brand small{display:block;margin-top:5px;color:#82918d;font-size:11px;font-weight:600;letter-spacing:.3px}.dot{color:#dfab55}.mark{height:37px;width:37px;border-radius:12px;background:#123c43;color:#9ce5c9;display:grid;place-items:center;font-size:19px}.search{height:42px;max-width:500px;flex:1;display:flex;align-items:center;gap:10px;background:#f5f7f6;border:1px solid #e6ebea;border-radius:9px;padding:0 12px;color:#83918e}.search input,.mobileSearch input{border:0;outline:0;background:transparent;min-width:0;flex:1;color:#15343b;font:inherit;font-size:14px}.search kbd{font-size:12px;border:1px solid #dce3e1;background:white;border-radius:5px;padding:3px 6px;color:#8c9895}.actions{margin-left:auto;display:flex;align-items:center;gap:12px}.iconButton{width:40px;height:40px;border:1px solid #e7ecea;border-radius:9px;background:#fff;color:#586d68;position:relative;display:grid;place-items:center;font-size:18px}.iconButton i{position:absolute;width:7px;height:7px;border-radius:50%;background:#e6ab54;right:8px;top:8px;border:1px solid white}.repo,.create{height:40px;border-radius:8px;display:flex;align-items:center;justify-content:center;gap:8px;font-weight:700;font-size:14px;text-decoration:none;padding:0 13px}.repo{border:1px solid #dfe7e4;background:white;color:#526762}.create{background:#143e44;color:white;border:1px solid #143e44}.create:hover{box-shadow:0 0 0 3px #d0eee3}.repo:hover,.iconButton:hover{border-color:#88c9b0;box-shadow:0 4px 12px #123d4314}.menuButton,.mobileSearch{display:none}.tooltip{font-size:13px!important}
-@media(max-width:1050px){.header{gap:18px;padding:0 18px}.brand{width:170px}.search{max-width:none}.repo span{display:none}.repo{width:40px;padding:0}}
-@media(max-width:700px){.header{height:66px;padding:0 14px;gap:12px}.brand{width:auto;flex:1;font-size:20px}.brand small{font-size:10px}.mark{height:34px;width:34px}.search{display:none}.actions{margin:0;gap:8px}.repo,.iconButton{display:none}.create{height:38px;padding:0 10px;font-size:13px}.menuButton{display:grid;place-items:center;order:3;width:36px;height:36px;border:0;background:transparent;color:#25474c;font-size:22px}.mobileSearch{position:absolute;display:grid;gap:10px;top:65px;left:0;right:0;padding:14px;background:white;border-bottom:1px solid #e4e9e7;box-shadow:0 12px 20px #112c3612}.mobileSearch form{height:42px;display:flex;align-items:center;gap:8px;border:1px solid #e1e8e5;border-radius:8px;padding:0 10px;color:#82918d}.mobileSearch button,.mobileSearch a{display:flex;align-items:center;gap:8px;color:#25474c;text-decoration:none;border:1px solid #e1e8e5;border-radius:8px;background:#fff;padding:10px;font-size:14px;font-weight:650}}
+﻿.header {
+  position: fixed;
+  inset: 0 0 auto 0;
+  height: 76px;
+  background: #fff;
+  border-bottom: 1px solid #e4e9e7;
+  display: flex;
+  align-items: center;
+  padding: 0 30px;
+  gap: 34px;
+  z-index: 20;
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 207px;
+    flex: none;
+    color: #15343b;
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: -0.7px;
+    text-decoration: none;
+    @media (max-width: 1050px) {
+      width: 170px;
+    }
+    @media (max-width: 700px) {
+      width: auto;
+      flex: 1;
+      font-size: 20px;
+    }
+  }
+  .brand > span:last-child {
+    line-height: 1;
+  }
+  .brand small {
+    display: block;
+    margin-top: 5px;
+    color: #82918d;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    @media (max-width: 700px) {
+      font-size: 13px;
+    }
+  }
+  .dot {
+    color: #dfab55;
+  }
+  .mark {
+    height: 37px;
+    width: 37px;
+    border-radius: 12px;
+    background: #123c43;
+    color: #9ce5c9;
+    display: grid;
+    place-items: center;
+    font-size: 19px;
+    @media (max-width: 700px) {
+      height: 34px;
+      width: 34px;
+    }
+  }
+  .search {
+    height: 42px;
+    max-width: 500px;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #f5f7f6;
+    border: 1px solid #e6ebea;
+    border-radius: 9px;
+    padding: 0 12px;
+    color: #83918e;
+    @media (max-width: 1050px) {
+      max-width: none;
+    }
+    @media (max-width: 700px) {
+      display: none;
+    }
+  }
+  .search input,
+  .mobileSearch input {
+    border: 0;
+    outline: 0;
+    background: transparent;
+    min-width: 0;
+    flex: 1;
+    color: #15343b;
+    font: inherit;
+    font-size: 14px;
+  }
+  .search kbd {
+    font-size: 13px;
+    border: 1px solid #dce3e1;
+    background: white;
+    border-radius: 5px;
+    padding: 3px 6px;
+    color: #8c9895;
+  }
+  .actions {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    @media (max-width: 700px) {
+      margin: 0;
+      gap: 8px;
+    }
+  }
+  .iconButton {
+    width: 40px;
+    height: 40px;
+    border: 1px solid #e7ecea;
+    border-radius: 9px;
+    background: #fff;
+    color: #586d68;
+    position: relative;
+    display: grid;
+    place-items: center;
+    font-size: 18px;
+  }
+  .iconButton i {
+    position: absolute;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #e6ab54;
+    right: 8px;
+    top: 8px;
+    border: 1px solid white;
+  }
+  .repo,
+  .create {
+    height: 40px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-weight: 700;
+    font-size: 14px;
+    text-decoration: none;
+    padding: 0 13px;
+  }
+  .repo {
+    border: 1px solid #dfe7e4;
+    background: white;
+    color: #526762;
+    @media (max-width: 1050px) {
+      width: 40px;
+      padding: 0;
+    }
+  }
+  .create {
+    background: #143e44;
+    color: white;
+    border: 1px solid #143e44;
+    @media (max-width: 700px) {
+      height: 38px;
+      padding: 0 10px;
+      font-size: 13px;
+    }
+  }
+  .create:hover {
+    box-shadow: 0 0 0 3px #d0eee3;
+  }
+  .repo:hover,
+  .iconButton:hover {
+    border-color: #88c9b0;
+    box-shadow: 0 4px 12px #123d4314;
+  }
+  .menuButton,
+  .mobileSearch {
+    display: none;
+  }
+  .tooltip {
+    font-size: 13px !important;
+  }
+  @media (max-width: 1050px) {
+    gap: 18px;
+    padding: 0 18px;
+  }
+  .repo span {
+    @media (max-width: 1050px) {
+      display: none;
+    }
+  }
+  @media (max-width: 700px) {
+    height: 66px;
+    padding: 0 14px;
+    gap: 12px;
+  }
+  .repo,
+  .iconButton {
+    @media (max-width: 700px) {
+      display: none;
+    }
+  }
+  .menuButton {
+    @media (max-width: 700px) {
+      display: grid;
+      place-items: center;
+      order: 3;
+      width: 36px;
+      height: 36px;
+      border: 0;
+      background: transparent;
+      color: #25474c;
+      font-size: 22px;
+    }
+  }
+  .mobileSearch {
+    @media (max-width: 700px) {
+      position: absolute;
+      display: grid;
+      gap: 10px;
+      top: 65px;
+      left: 0;
+      right: 0;
+      padding: 14px;
+      background: white;
+      border-bottom: 1px solid #e4e9e7;
+      box-shadow: 0 12px 20px #112c3612;
+    }
+  }
+  .mobileSearch form {
+    @media (max-width: 700px) {
+      height: 42px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid #e1e8e5;
+      border-radius: 8px;
+      padding: 0 10px;
+      color: #82918d;
+    }
+  }
+  .mobileSearch button,
+  .mobileSearch a {
+    @media (max-width: 700px) {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #25474c;
+      text-decoration: none;
+      border: 1px solid #e1e8e5;
+      border-radius: 8px;
+      background: #fff;
+      padding: 10px;
+      font-size: 14px;
+      font-weight: 650;
+    }
+  }
+  .mobileSearch nav {
+    @media (max-width: 700px) {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5px;
+    }
+  }
+  .mobileSearch nav a {
+    @media (max-width: 700px) {
+      border: 0;
+      background: #f7faf8;
+    }
+  }
+  .mobileSearch nav a:hover {
+    @media (max-width: 700px) {
+      background: #e9f4ed;
+      color: #267d5b;
+    }
+  }
+  .mobileNotify {
+    @media (max-width: 700px) {
+      background: #f4faf6;
+      border-color: #d8e9df;
+    }
+  }
+  .mobileRepo {
+    @media (max-width: 700px) {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #25474c;
+      text-decoration: none;
+      border: 1px solid #e1e8e5;
+      border-radius: 8px;
+      background: #fff;
+      padding: 10px;
+      font-size: 14px;
+      font-weight: 650;
+    }
+  }
+}
