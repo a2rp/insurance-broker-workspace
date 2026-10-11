@@ -1,20 +1,288 @@
-﻿import { useMemo, useState } from 'react'
-import { FiArrowUpRight, FiDownload, FiFileText, FiPlus, FiSearch, FiSliders, FiShield, FiChevronDown } from 'react-icons/fi'
-import { money, date } from '../../utils/format.js'
-import { policyStatuses } from '../../data/seed.js'
-import styles from './styles.module.css'
+import { useMemo, useState } from "react";
+import {
+  FiArrowUpRight,
+  FiDownload,
+  FiFileText,
+  FiPlus,
+  FiSearch,
+  FiSliders,
+  FiShield,
+  FiChevronDown,
+} from "react-icons/fi";
+import { money, date } from "../../utils/format.js";
+import { policyStatuses } from "../../data/seed.js";
+import styles from "./styles.module.css";
 
-export default function Policies({data,search,openForm,openDetail,confirmDelete,updateRecord,showToast}){
-  const [query,setQuery]=useState(search);const [status,setStatus]=useState('All statuses');const [sort,setSort]=useState('expires')
-  const filtered=useMemo(()=>data.policies.filter((item)=>`${item.id} ${item.account} ${item.type} ${item.carrier} ${item.owner}`.toLowerCase().includes(query.toLowerCase())&&(status==='All statuses'||item.status===status)).sort((a,b)=>String(a[sort]||'').localeCompare(String(b[sort]||''))),[data.policies,query,status,sort])
-  const exportCsv=()=>{const rows=[['Policy','Client','Coverage','Carrier','Premium','Status','Effective','Expires','Limit','Manager'],...filtered.map((x)=>[x.id,x.account,x.type,x.carrier,x.premium,x.status,x.effective,x.expires,x.limit,x.owner])];const url=URL.createObjectURL(new Blob([rows.map((row)=>row.map((v)=>`"${String(v).replaceAll('"','""')}"`).join(',')).join('\n')],{type:'text/csv'}));const a=document.createElement('a');a.href=url;a.download='aster-policy-register.csv';a.click();URL.revokeObjectURL(url)}
-  const changeStatus=(policy,next)=>{updateRecord('policy',policy.id,{status:next});showToast('Policy status updated',`${policy.id} is now marked ${next.toLowerCase()}.`)}
-  const premium=filtered.reduce((sum,x)=>sum+Number(x.premium||0),0)
-  return <div className={styles.page}><div className={styles.heading}><div><p className={styles.breadcrumb}>BROKERAGE / PLACEMENTS</p><h1>Policy register</h1><p>Track coverage, carriers, premium, and term dates across your book.</p></div><button className={styles.add} onClick={()=>openForm('policy')}><FiPlus/> Add policy</button></div>
-    <section className={styles.topline}><div className={styles.total}><span className={styles.icon}><FiShield/></span><div><small>Annual premium in view</small><strong>{money(premium)}</strong></div></div><div className={styles.statusCounts}>{policyStatuses.slice(0,3).map((item)=><button key={item} className={styles.count} onClick={()=>setStatus(status===item?'All statuses':item)}><span className={`${styles.dot} ${styles[item.toLowerCase().replace(' ','')]}`}/>{item}<b>{data.policies.filter((p)=>p.status===item).length}</b></button>)}</div></section>
-    <div className={styles.filters}><label className={styles.search}><FiSearch/><input value={query} onChange={(e)=>setQuery(e.target.value)} placeholder="Search policy, client, carrier" aria-label="Search policies"/></label><label className={styles.select}><FiSliders/><select value={status} onChange={(e)=>setStatus(e.target.value)}><option>All statuses</option>{policyStatuses.map((item)=><option key={item}>{item}</option>)}</select><FiChevronDown/></label><label className={styles.sort}>Sort <select value={sort} onChange={(e)=>setSort(e.target.value)}><option value="expires">Expiration</option><option value="premium">Premium</option><option value="account">Client</option></select></label><button className={styles.export} onClick={exportCsv}><FiDownload/> Export register</button></div>
-    <section className={styles.register}><div className={styles.registerHead}><div><h2>Coverage placements</h2><span>{filtered.length} policies</span></div><button onClick={()=>{setQuery('');setStatus('All statuses')}}>Reset filters</button></div>
-      {filtered.length===0?<div className={styles.empty}><FiFileText/><strong>No placements found</strong><span>Adjust your filters or search another policy.</span></div>:<div className={styles.cards}>{filtered.map((item)=>{const remaining=Math.ceil((new Date(`${item.expires}T12:00:00`)-new Date('2026-10-11T12:00:00'))/86400000);return <article className={styles.policy} key={item.id}><div className={styles.policyTop}><span className={styles.policyIcon}><FiFileText/></span><div><button className={styles.account} onClick={()=>openDetail('policy',item)}>{item.account}</button><span className={styles.id}>{item.id}</span></div><button className={styles.detail} onClick={()=>openDetail('policy',item)} aria-label={`View ${item.id}`}><FiArrowUpRight/></button></div><div className={styles.coverage}>{item.type}</div><div className={styles.carrierRow}><span>Carrier</span><strong>{item.carrier}</strong><span>Manager</span><strong>{item.owner}</strong></div><div className={styles.divider}/><div className={styles.policyBottom}><div><small>Annual premium</small><strong>{money(item.premium)}</strong></div><div><small>Policy term</small><strong>{date(item.effective)} - {date(item.expires)}</strong></div></div><div className={styles.footerRow}><span className={`${styles.status} ${styles[item.status.toLowerCase().replace(' ','')]}`}>{item.status}</span><span className={styles.days}>{remaining<0?`${Math.abs(remaining)} days past`:remaining===0?'Due today':`${remaining} days left`}</span><select aria-label={`Change status for ${item.id}`} value={item.status} onChange={(e)=>changeStatus(item,e.target.value)}>{policyStatuses.map((s)=><option key={s}>{s}</option>)}</select></div><div className={styles.actions}><button onClick={()=>openForm('policy',item)}>Edit placement</button><button onClick={()=>confirmDelete('policy',item)}>Delete</button></div></article>})}</div>}
-    </section><p className={styles.note}>Policy information shown here is sample brokerage data and does not represent a live carrier connection.</p>
-  </div>
-}
+const Policies = ({
+  data,
+  search,
+  openForm,
+  openDetail,
+  confirmDelete,
+  updateRecord,
+  showToast,
+}) => {
+  const [query, setQuery] = useState(search);
+  const [status, setStatus] = useState("All statuses");
+  const [sort, setSort] = useState("expires");
+  const filtered = useMemo(
+    () =>
+      data.policies
+        .filter(
+          (item) =>
+            `${item.id} ${item.account} ${item.type} ${item.carrier} ${item.owner}`
+              .toLowerCase()
+              .includes(query.toLowerCase()) &&
+            (status === "All statuses" || item.status === status),
+        )
+        .sort((a, b) =>
+          sort === "premium"
+            ? Number(a.premium) - Number(b.premium)
+            : String(a[sort] || "").localeCompare(String(b[sort] || "")),
+        ),
+    [data.policies, query, status, sort],
+  );
+  const exportCsv = () => {
+    const rows = [
+      [
+        "Policy",
+        "Client",
+        "Coverage",
+        "Carrier",
+        "Premium",
+        "Status",
+        "Effective",
+        "Expires",
+        "Limit",
+        "Manager",
+      ],
+      ...filtered.map((x) => [
+        x.id,
+        x.account,
+        x.type,
+        x.carrier,
+        x.premium,
+        x.status,
+        x.effective,
+        x.expires,
+        x.limit,
+        x.owner,
+      ]),
+    ];
+    const url = URL.createObjectURL(
+      new Blob(
+        [
+          rows
+            .map((row) =>
+              row.map((v) => `"${String(v).replaceAll('"', '""')}"`).join(","),
+            )
+            .join("\n"),
+        ],
+        { type: "text/csv" },
+      ),
+    );
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "aster-policy-register.csv";
+    a.click();
+    URL.revokeObjectURL(url);
+    showToast("Policy export ready", `${filtered.length} policy records downloaded as CSV.`);
+  };
+  const changeStatus = (policy, next) => {
+    updateRecord("policy", policy.id, { status: next });
+    showToast(
+      "Policy status updated",
+      `${policy.id} is now marked ${next.toLowerCase()}.`,
+    );
+  };
+  const premium = filtered.reduce((sum, x) => sum + Number(x.premium || 0), 0);
+  return (
+    <div className={styles.page}>
+      <div className={styles.heading}>
+        <div>
+          <p className={styles.breadcrumb}>BROKERAGE / PLACEMENTS</p>
+          <h1>Policy register</h1>
+          <p>
+            Track coverage, carriers, premium, and term dates across your book.
+          </p>
+        </div>
+        <button className={styles.add} onClick={() => openForm("policy")}>
+          <FiPlus /> Add policy
+        </button>
+      </div>
+      <section className={styles.topline}>
+        <div className={styles.total}>
+          <span className={styles.icon}>
+            <FiShield />
+          </span>
+          <div>
+            <small>Annual premium in view</small>
+            <strong>{money(premium)}</strong>
+          </div>
+        </div>
+        <div className={styles.statusCounts}>
+          {policyStatuses.slice(0, 3).map((item) => (
+            <button
+              key={item}
+              className={styles.count}
+              onClick={() => setStatus(status === item ? "All statuses" : item)}
+            >
+              <span
+                className={`${styles.dot} ${styles[item.toLowerCase().replace(" ", "")]}`}
+              />
+              {item}
+              <b>{data.policies.filter((p) => p.status === item).length}</b>
+            </button>
+          ))}
+        </div>
+      </section>
+      <div className={styles.filters}>
+        <label className={styles.search}>
+          <FiSearch />
+          <input
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="Search policy, client, carrier"
+            aria-label="Search policies"
+          />
+        </label>
+        <label className={styles.select}>
+          <FiSliders />
+          <select value={status} onChange={(e) => setStatus(e.target.value)}>
+            <option>All statuses</option>
+            {policyStatuses.map((item) => (
+              <option key={item}>{item}</option>
+            ))}
+          </select>
+          <FiChevronDown />
+        </label>
+        <label className={styles.sort}>
+          Sort{" "}
+          <select value={sort} onChange={(e) => setSort(e.target.value)}>
+            <option value="expires">Expiration</option>
+            <option value="premium">Premium</option>
+            <option value="account">Client</option>
+          </select>
+        </label>
+        <button className={styles.export} onClick={exportCsv}>
+          <FiDownload /> Export register
+        </button>
+      </div>
+      <section className={styles.register}>
+        <div className={styles.registerHead}>
+          <div>
+            <h2>Coverage placements</h2>
+            <span>{filtered.length} policies</span>
+          </div>
+          <button
+            onClick={() => {
+              setQuery("");
+              setStatus("All statuses");
+            }}
+          >
+            Reset filters
+          </button>
+        </div>
+        {filtered.length === 0 ? (
+          <div className={styles.empty}>
+            <FiFileText />
+            <strong>No placements found</strong>
+            <span>Adjust your filters or search another policy.</span>
+          </div>
+        ) : (
+          <div className={styles.cards}>
+            {filtered.map((item) => {
+              const remaining = Math.ceil(
+                (new Date(`${item.expires}T12:00:00`) -
+                  new Date("2026-10-11T12:00:00")) /
+                  86400000,
+              );
+              return (
+                <article className={styles.policy} key={item.id}>
+                  <div className={styles.policyTop}>
+                    <span className={styles.policyIcon}>
+                      <FiFileText />
+                    </span>
+                    <div>
+                      <button
+                        className={styles.account}
+                        onClick={() => openDetail("policy", item)}
+                      >
+                        {item.account}
+                      </button>
+                      <span className={styles.id}>{item.id}</span>
+                    </div>
+                    <button
+                      className={styles.detail}
+                      onClick={() => openDetail("policy", item)}
+                      aria-label={`View ${item.id}`}
+                    >
+                      <FiArrowUpRight />
+                    </button>
+                  </div>
+                  <div className={styles.coverage}>{item.type}</div>
+                  <div className={styles.carrierRow}>
+                    <span>Carrier</span>
+                    <strong>{item.carrier}</strong>
+                    <span>Manager</span>
+                    <strong>{item.owner}</strong>
+                  </div>
+                  <div className={styles.divider} />
+                  <div className={styles.policyBottom}>
+                    <div>
+                      <small>Annual premium</small>
+                      <strong>{money(item.premium)}</strong>
+                    </div>
+                    <div>
+                      <small>Policy term</small>
+                      <strong>
+                        {date(item.effective)} - {date(item.expires)}
+                      </strong>
+                    </div>
+                  </div>
+                  <div className={styles.footerRow}>
+                    <span
+                      className={`${styles.status} ${styles[item.status.toLowerCase().replace(" ", "")]}`}
+                    >
+                      {item.status}
+                    </span>
+                    <span className={styles.days}>
+                      {remaining < 0
+                        ? `${Math.abs(remaining)} days past`
+                        : remaining === 0
+                          ? "Due today"
+                          : `${remaining} days left`}
+                    </span>
+                    <select
+                      aria-label={`Change status for ${item.id}`}
+                      value={item.status}
+                      onChange={(e) => changeStatus(item, e.target.value)}
+                    >
+                      {policyStatuses.map((s) => (
+                        <option key={s}>{s}</option>
+                      ))}
+                    </select>
+                  </div>
+                  <div className={styles.actions}>
+                    <button onClick={() => openForm("policy", item)}>
+                      Edit placement
+                    </button>
+                    <button onClick={() => confirmDelete("policy", item)}>
+                      Delete
+                    </button>
+                  </div>
+                </article>
+              );
+            })}
+          </div>
+        )}
+      </section>
+      <p className={styles.note}>
+        Policy information shown here is sample brokerage data and does not
+        represent a live carrier connection.
+      </p>
+    </div>
+  );
+};
+
+export default Policies;
