@@ -1,0 +1,96 @@
+﻿.appShell {
+  min-height: 100vh;
+  color: #18383e;
+  background: #f2f6f4;
+
+  .workspaceMain {
+    margin-left: 238px;
+    padding: 76px 30px 34px;
+    min-height: calc(100vh - 70px);
+    background: #f2f6f4;
+
+    @media (max-width: 900px) {
+      margin-left: 0;
+      padding: 76px 20px 28px;
+    }
+
+    @media (max-width: 700px) {
+      padding: 66px 14px 24px;
+    }
+  }
+
+  .detailGrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+
+    div {
+      padding: 11px;
+      border: 1px solid #e9eeec;
+      border-radius: 8px;
+    }
+
+    span,
+    strong {
+      display: block;
+    }
+
+    span {
+      font-size: 13px;
+      color: #82918b;
+      margin-bottom: 4px;
+    }
+
+    strong {
+      font-size: 14px;
+      color: #26473f;
+    }
+
+    @media (max-width: 600px) {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .detailNote {
+    padding: 12px;
+    background: #f5f8f6;
+    border-radius: 8px;
+    margin-top: 12px;
+    color: #5b6f68;
+  }
+
+  .reminderList {
+    display: grid;
+    gap: 8px;
+
+    button {
+      display: block;
+      text-align: left;
+      border: 1px solid #e3ebe7;
+      background: #fff;
+      border-radius: 9px;
+      padding: 12px;
+
+      &:hover {
+        border-color: #75bd9d;
+        box-shadow: 0 3px 12px #1a423110;
+      }
+    }
+
+    strong,
+    span {
+      display: block;
+    }
+
+    strong {
+      font-size: 14px;
+      color: #254b40;
+    }
+
+    span {
+      font-size: 13px;
+      color: #7d8d86;
+      margin-top: 4px;
+    }
+  }
+}
