@@ -1,4 +1,60 @@
-﻿@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap');
-:root{font-family:'DM Sans',Arial,sans-serif;color:#18383e;background:#f2f6f4;font-synthesis:none;text-rendering:optimizeLegibility;font-optical-sizing:auto;font-weight:400;--ink:#18383e;--muted:#778782;--line:#e2e9e6;--green:#278766;--gold:#dfa951}*{box-sizing:border-box}html{min-width:320px;scroll-behavior:smooth}body{margin:0;min-width:320px;min-height:100vh;font-size:15px;background:#f2f6f4}button,input,select,textarea{font-family:inherit}button{cursor:pointer}a{color:inherit}.appShell{min-height:100vh}.workspaceMain{margin-left:238px;padding:76px 30px 34px;min-height:calc(100vh - 70px);background:#f2f6f4}.routeLoader{height:65vh;display:grid;place-items:center}.routeLoader span{width:44px;height:44px;border:4px solid #dcebe4;border-top-color:#348c6b;border-radius:50%;animation:spin .8s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}.mobileMenuTrigger{display:none}.detailGrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.detailGrid div{padding:11px;border:1px solid #e9eeec;border-radius:8px}.detailGrid span,.detailGrid strong{display:block}.detailGrid span{font-size:13px;color:#82918b;margin-bottom:4px}.detailGrid strong{font-size:14px;color:#26473f}.detailNote{padding:12px;background:#f5f8f6;border-radius:8px;margin-top:12px;color:#5b6f68}.reminderList{display:grid;gap:8px}.reminderList button{display:block;text-align:left;border:1px solid #e3ebe7;background:#fff;border-radius:9px;padding:12px}.reminderList button:hover{border-color:#75bd9d;box-shadow:0 3px 12px #1a423110}.reminderList strong,.reminderList span{display:block}.reminderList strong{font-size:14px;color:#254b40}.reminderList span{font-size:13px;color:#7d8d86;margin-top:4px}
-@media(max-width:900px){.workspaceMain{margin-left:0;padding:76px 20px 28px}.mobileMenuTrigger{display:none}}
-@media(max-width:700px){.workspaceMain{padding:66px 14px 24px}.mobileMenuTrigger{display:none}}
+﻿:root {
+  font-family: "Segoe UI", Arial, sans-serif;
+  color: #18383e;
+  background: #f2f6f4;
+  font-size: 16px;
+  line-height: 1.5;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  --ink: #18383e;
+  --muted: #778782;
+  --line: #e2e9e6;
+  --green: #278766;
+  --gold: #dfa951;
+}
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+html {
+  min-width: 320px;
+  scroll-behavior: smooth;
+}
+body {
+  min-width: 320px;
+  min-height: 100vh;
+  font-size: 16px;
+  line-height: 1.5;
+  background: #f2f6f4;
+}
+button,
+input,
+select,
+textarea {
+  font-family: inherit;
+  font-size: inherit;
+}
+button {
+  cursor: pointer;
+}
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid #8bcbaa;
+  outline-offset: 2px;
+}
+a {
+  color: inherit;
+}
+h1,
+h2,
+h3,
+h4 {
+  font-size: inherit;
+  font-weight: inherit;
+}
